@@ -4,12 +4,12 @@ import ru.netology.model.Post;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicLong;
 
 // Stub
 public class PostRepository {
-    private ConcurrentHashMap<Long, Post> postCollection;
-    Long countPosts = 0L;
+    private final ConcurrentHashMap<Long, Post> postCollection;
+    AtomicLong countPosts = new AtomicLong(0L);
 
     public PostRepository() {
         this.postCollection = new ConcurrentHashMap<>();
@@ -25,10 +25,10 @@ public class PostRepository {
 
     public Post save(Post post) {
         if (post.getId() == 0) {
-            countPosts += 1;
-            post.setId(countPosts);
-            postCollection.put(countPosts, post);
-            return postCollection.get(countPosts);
+            countPosts.incrementAndGet();
+            post.setId(countPosts.get());
+            postCollection.put(countPosts.get(), post);
+            return postCollection.get(countPosts.get());
         } else {
             Post postByIdFromCollection = postCollection.get(post.getId());
             postByIdFromCollection.setContent(post.getContent());
