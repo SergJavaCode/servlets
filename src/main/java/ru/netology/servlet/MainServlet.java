@@ -48,7 +48,7 @@ public class MainServlet extends HttpServlet {
                 controller.removeById(id, resp);
                 return;
             }
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND); 
         } catch (Exception e) {
             e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
